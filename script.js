@@ -2,19 +2,35 @@ const btnStart = document.querySelector(".start")
 const btnStop = document.querySelector(".stop")
 const heading = document.querySelector(".heading")
 
-const starting = function() {
-    // heading.textContent = "Ali Hamza is a Billionair"
-    console.log("Ali Hamza is a Billionair...")
+const randomColor = function() {
+    const hex = "0123456789ABCDEF"
+    let color = "#"
+    for(let i = 0; i < 6; i++) {
+        color += hex[Math.floor(Math.random() * 16)]
+    }
+    return color
 }
-// let stopped = setInterval(starting, 3000)
 
-let stopped = 0
+let intervalId
 
-btnStart.addEventListener('click', function() {
-    stopped = setInterval(starting, 3000)
-})
+const startChangingColor = function() {
+    if(!intervalId) {
+        intervalId = setInterval(changeBGColor, 1000)
+    }
+    
+    function changeBGColor() {
+        document.body.style.backgroundColor = randomColor()
+    }
+}
 
-btnStop.addEventListener('click',function() {
-    clearInterval(stopped)
-    console.log("Stopped")
-})
+const stopChangingColor = function() {
+    clearInterval(intervalId)
+    intervalId = null
+}
+
+btnStart.addEventListener('click', startChangingColor)
+btnStop.addEventListener('click', stopChangingColor)
+
+
+
+
